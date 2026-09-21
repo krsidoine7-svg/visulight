@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-syne: 'Syne', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: #FFFFFF;
+    color: #334155;
+    font-family: var(--font-inter);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-syne);
+    color: #0A1128;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background-color: #2563EB;
+    color: #FFFFFF;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* ─── Swipe latéral du sélecteur de tarifs ─── */
+  @keyframes slideInRight {
+    0%   { opacity: 0; transform: translateX(32px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes slideInLeft {
+    0%   { opacity: 0; transform: translateX(-32px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
