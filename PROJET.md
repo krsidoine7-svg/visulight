@@ -109,6 +109,8 @@ Objectif : Montrer une agence vivante et animer la communauté.
   - Configuration d'en-têtes HTTP défensifs dans `next.config.ts` (CSP stricte, HSTS 2 ans, anti-clickjacking `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, suppression de `X-Powered-By`).
   - Assainissement strict (`sanitizeInput`), limitation de longueur (`maxLength`) sur le configurateur de devis (`components/order-configurator.tsx`), et assainissement du numéro WhatsApp (`config/site.ts`).
   - Création du composant d'erreur global Next.js (`app/error.tsx`) prévenant toute fuite de données techniques ou de traces d'exécution.
+  - Configuration du **Favicon officiel Light Studio** dans l'onglet du navigateur (`public/favicon.ico`, `app/icon.png`, et métadonnées multi-résolutions Apple Touch & standard dans `app/layout.tsx`).
+
 
 
 ---

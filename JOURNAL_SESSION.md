@@ -140,99 +140,122 @@ LIGHT STUDIO/
 
 ---
 
-## 🆕 Session du 22/09/2026 — Améliorations et corrections
+## 🆕 Session du 22/09/2026 — Améliorations, Sécurisation et Clôture
 
-### ✅ MVP2 — Modules M07 et M08 livrés
-
-#### Module M07 — "Qui est Light Studio ?"
-**Fichier :** [`components/about.tsx`](components/about.tsx)
-
-Ce que contient ce module :
-- Badge géolocalisation *Abidjan, Cocody — Côte d'Ivoire*
-- Titre fort avec gradient bleu : *"Né de la lumière. Construit pour l'impact."*
-- Photo équipe Light Studio (générée AI, fond cinématique)
-- Grande citation de la fondatrice avec barre bleue latérale
-- Histoire du studio : fondé 2021, +150 projets, rayonnement 4 pays
-- Timeline parcours 2021 → 2025 (5 jalons, nœuds bleus lumineux, layout en S)
-- Grille 4 valeurs : Excellence Créative, Vision Cinématique, Identité Africaine, Ambition Internationale
-- Photo de l'espace de travail studio
+### 1. 🖼️ Intégration du Logo Officiel Light Studio
+- **Fichier :** `public/images/logo-light.png`
+- Intégration dans le **Header** (`components/header.tsx`) et le **Footer** (`components/footer.tsx`) avec le composant Next.js `Image` optimisé.
+- Conservation d'un affichage net, haute résolution et responsive.
 
 ---
 
-#### Module M08 — "Pourquoi nous choisir ?"
-**Fichier :** [`components/reassurance.tsx`](components/reassurance.tsx)
-
-Ce que contient ce module :
-- 4 compteurs animés au scroll : `150+` projets / `98%` satisfaction / `48h` délai / `4 pays`
-- 6 garanties concrètes avec icônes colorées (Délais, Qualité, Révisions, WhatsApp, Réactivité, Satisfaction)
-- **Grille Magazine 4 Témoignages** (voir ci-dessous)
-- CTA final dégradé bleu → WhatsApp
-
----
-
-#### Refonte Témoignages — Section "Ce que disent nos clients"
-**Avant :** Carrousel basique, 1 seule carte visible, look template
-
-**Après — Design Premium :**
-- Bloc entier sur fond sombre dégradé `midnight → navy` qui tranche visuellement
-- **Grille 2×2** : les 4 témoignages sont visibles en même temps (pas de carousel)
-- Grande guillemet typographique `"` en filigrane (4% opacité) par carte
-- Barre de couleur fine en haut de chaque carte (ambre / rose / bleu / vert)
-- Séparation profil du texte par une ligne fine
-- **Score global** en bas de bloc : `5.0 ★` · `98%` · `150+`
-- Pas de boutons "précédent / suivant" inutiles
+### 2. ⚡ Refonte & Fluidité du Sélecteur de Tarifs (Module M05)
+**Fichier :** `components/pricing.tsx`
+- **Bascule automatique fluide (4.5s)** : alterne sans arrêt entre « Packs Clés en main » et « Services à la carte ».
+- **Pause intelligente au survol** : la temporisation se met en pause lorsque le visiteur survole le sélecteur ou les cartes, et repart dès que la souris quitte la zone.
+- **Suppression du texte superflu** : retrait de la mention *"En pause pour lecture • Cliquez pour relancer"*.
+- **Élimination des débordements de texte** : utilisation de `whitespace-nowrap`, `shrink-0`, et passage de la typographie des montants à `font-sans` (Inter) pour une lisibilité parfaite sur mobile sans coupure.
+- Remplacement des icônes génériques par l'icône officielle `WhatsAppIcon`.
 
 ---
 
-#### Navigation Header mise à jour
-**Fichier :** [`components/header.tsx`](components/header.tsx)
-
-Nouveaux liens :
-- "Le Studio" → `#studio` (M07)
-- "Confiance" → `#confiance` (M08)
-
----
-
-#### Git — Premier commit envoyé sur GitHub
-- Dépôt : `https://github.com/krsidoine7-svg/visulight`
-- Branche : `main`
-- 39 fichiers, 10 423 lignes de code envoyées
+### 3. 📂 Pagination & Scalabilité du Portfolio (Module M04)
+**Fichier :** `components/portfolio.tsx`
+- **Affichage par défaut :** 6 réalisations visibles à l'arrivée sur la page.
+- **Bouton « Charger plus de réalisations » :** révèle 6 nouveaux projets à chaque clic.
+- **Support des catalogues denses (+100 projets)** : garantit un temps de chargement ultra-rapide sans ralentir les smartphones.
 
 ---
 
-## 📁 État complet des fichiers au 22/09/2026
+### 4. 🧹 Nettoyage Architectural des Pages d'Études de Cas
+**Fichier :** `app/portfolio/[id]/page.tsx`
+- Suppression des doublons `<Header />` et `<Footer />` qui s'affichaient deux fois (ils sont désormais injectés une seule fois par le `RootLayout` global dans `app/layout.tsx`).
+
+---
+
+### 5. 🛡️ Sécurisation Globale du Site Web (OWASP Top 10 & mandatory-secure-web-skills)
+- **Blindage HTTP (`next.config.ts`)** :
+  - `Content-Security-Policy` (CSP) stricte (scripts, styles, polices, médias restreints).
+  - `Strict-Transport-Security` (HSTS) actif pendant 2 ans (`max-age=63072000; includeSubDomains; preload`).
+  - Protection anti-clickjacking `X-Frame-Options: SAMEORIGIN` et `frame-ancestors 'self'`.
+  - Prévention MIME-sniffing `X-Content-Type-Options: nosniff`.
+  - Désactivation de l'empreinte serveur `poweredByHeader: false` (suppression de `X-Powered-By: Next.js`).
+  - `Permissions-Policy` restrictive (désactivation caméra, micro, géolocalisation, browsing-topics).
+- **Élimination de la faille de dépendance (`package.json`)** :
+  - Résolution de la vulnérabilité critique PostCSS (GHSA-qx2v-qp2m-jg93) via `overrides: { "postcss": "^8.5.28" }`.
+  - **Résultat `npm audit` : 0 vulnérabilité détectée** sur l'ensemble de l'arbre de dépendances.
+- **Assainissement des formulaires (`components/order-configurator.tsx` & `config/site.ts`)** :
+  - Fonction `sanitizeInput` pour neutraliser les caractères de contrôle invisibles.
+  - Limitation de longueur stricte (`maxLength={80}` pour nom/ville, `maxLength={500}` pour le message).
+  - Nettoyage du numéro de téléphone WhatsApp (chiffres uniquement `\D`).
+  - Protection contre le Reverse Tabnabbing via `rel="noopener noreferrer"` sur tous les liens externes.
+- **Écran de secours d'erreur (`app/error.tsx`)** :
+  - Error Boundary personnalisé évitant la fuite de traces d'exécution ou de chemins système en production.
+
+---
+
+### 6. 🚀 Validation Technique & Déploiement Git
+- **Audit de sécurité :** `npm audit` → **0 vulnerability**
+- **Compilation de production :** `npm run build` → **100% réussi** (15 routes statiques et dynamiques SSG compilées sans avertissement).
+- **Versionnage Git :** Commit `5db0a6b` poussé avec succès sur la branche `main` du dépôt GitHub :
+  `https://github.com/krsidoine7-svg/visulight.git`
+- **Statut de l'arbre de travail :** `working tree clean` (aucun fichier orphelin non sauvegardé).
+
+---
+
+## 📁 État actuel complet des fichiers du projet
 
 ```
 LIGHT STUDIO/
 ├── app/
-│   ├── layout.tsx
-│   ├── page.tsx              ← tous les modules assemblés
-│   └── globals.css           ← animations slideIn + scroll reveal
+│   ├── layout.tsx             — Racine, Google Fonts, RootLayout (Header & Footer globaux)
+│   ├── page.tsx               — Assemblage de toutes les sections de la page d'accueil
+│   ├── globals.css            — Variables CSS, styles de base, animations swipe & scroll
+│   ├── error.tsx              — Error Boundary global sécurisé (anti-fuite d'infos)
+│   ├── not-found.tsx          — Page 404 sur-mesure aux couleurs de la marque
+│   ├── mentions-legales/      — Page Mentions Légales
+│   ├── confidentialite/       — Page Politique de Confidentialité RGPD
+│   └── portfolio/[id]/        — Études de cas détaillées dynamiques (SSG)
 ├── components/
-│   ├── header.tsx            ← M01 (nav mise à jour)
-│   ├── hero.tsx              ← M02
-│   ├── about.tsx             ← M07 ✨ NOUVEAU MVP2
-│   ├── reassurance.tsx       ← M08 ✨ NOUVEAU MVP2 (témoignages premium)
-│   ├── departments.tsx       ← M03
-│   ├── process-flow.tsx      ← M03-B
-│   ├── portfolio.tsx         ← M04
-│   ├── pricing.tsx           ← M05 (swipe automatique 4s)
-│   ├── order-configurator.tsx← M06
-│   ├── footer.tsx            ← M10
-│   └── scroll-reveal.tsx     ← composant réutilisable scroll
-├── public/images/
-│   ├── hero-cinematic.jpg
-│   ├── portfolio-affiche.jpg
-│   ├── portfolio-video.jpg
-│   ├── portfolio-web.jpg
-│   ├── studio-team.jpg       ✨ NOUVEAU
-│   └── studio-workspace.jpg  ✨ NOUVEAU
-├── PROJET.md
-├── JOURNAL_SESSION.md        ← ce fichier
+│   ├── header.tsx             — M01 : Header flottant glassmorphism + Logo officiel
+│   ├── hero.tsx               — M02 : Hero cinématique + vidéo intégrée + CTAs
+│   ├── about.tsx              — M07 : Histoire, valeurs et ancrage Abidjan Cocody
+│   ├── reassurance.tsx        — M08 : Chiffres clés, garanties & 4 témoignages clients
+│   ├── departments.tsx        — M03 : Grille des 4 départements créatifs
+│   ├── process-flow.tsx       — M03-B : Étiquettes suspendues scroll-driven
+│   ├── portfolio.tsx          — M04 : Galerie filtrable + pagination 6 par 6 + modales
+│   ├── pricing.tsx            — M05 : Tarifs double entrée + bascule auto 4.5s sans débordement
+│   ├── order-configurator.tsx — M06 : Configurateur sécurisé devis express WhatsApp
+│   ├── events.tsx             — M09 : Fil des tournages et événements créatifs
+│   ├── footer.tsx             — M10 : Footer 4 colonnes + Logo + réseaux sociaux
+│   ├── icons.tsx              — Icônes vectorielles personnalisées (WhatsApp, TikTok)
+│   └── scroll-reveal.tsx      — Composant réutilisable d'animation au scroll GPU
+├── config/
+│   └── site.ts                — Config globale, sanitizeInput, getWhatsAppUrl, formatPricing
+├── data/
+│   └── projects.ts            — Base de données complète des projets du portfolio
+├── public/
+│   ├── hero-video-prensentation.mp4
+│   └── images/
+│       ├── logo-light.png     ← Logo officiel Light Studio
+│       ├── hero-cinematic.jpg
+│       ├── portfolio-affiche.jpg
+│       ├── portfolio-video.jpg
+│       ├── portfolio-web.jpg
+│       ├── studio-team.jpg
+│       └── studio-workspace.jpg
+├── .vscode/settings.json
+├── tailwind.config.ts
+├── next.config.ts             ← En-têtes HTTP de sécurité (CSP, HSTS, anti-clickjacking)
+├── package.json               ← Overrides postcss 8.5.28 (0 vulnérabilité)
+├── PROJET.md                  ← Source de vérité et journal des décisions
+├── JOURNAL_SESSION.md         ← Sauvegarde de session complète (ce fichier)
 └── README.md
 ```
 
 ---
 
-*🟢 Serveur de développement actif → `npm run dev` sur http://localhost:3000*
-*📦 Dépôt GitHub → https://github.com/krsidoine7-svg/visulight*
+*🟢 Serveur de développement : `npm run dev` sur http://localhost:3000*  
+*📦 Dépôt GitHub : https://github.com/krsidoine7-svg/visulight.git (Branche `main` à jour)*  
+*📅 Dernière sauvegarde : 22/09/2026 à 12:05 UTC*
+
