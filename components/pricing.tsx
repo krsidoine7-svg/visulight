@@ -13,39 +13,27 @@ import {
   ShieldCheck,
   Tag,
   Boxes,
-  Pause,
-  Play,
 } from "lucide-react";
+import { WhatsAppIcon } from "@/components/icons";
 
 export type PricingTab = "packs" | "carte";
 
 export function Pricing() {
   const [activeTab, setActiveTab] = useState<PricingTab>("packs");
   const [isPaused, setIsPaused] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [direction, setDirection] = useState<"left" | "right">("right");
 
-  // Swipe automatique continu toutes les 4 secondes (avec jauge de progression fluide)
+  // Basculement automatique continu toutes les 4.5 secondes (aller-retour fluide)
   useEffect(() => {
     if (isPaused) return;
 
-    const intervalTime = 40; // mise à jour toutes les 40ms
-    const totalDuration = 4000; // 4 secondes
-    const step = (intervalTime / totalDuration) * 100;
-
     const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          setActiveTab((current) => {
-            const next = current === "packs" ? "carte" : "packs";
-            setDirection(next === "carte" ? "right" : "left");
-            return next;
-          });
-          return 0;
-        }
-        return prev + step;
+      setActiveTab((current) => {
+        const next = current === "packs" ? "carte" : "packs";
+        setDirection(next === "carte" ? "right" : "left");
+        return next;
       });
-    }, intervalTime);
+    }, 4500);
 
     return () => clearInterval(timer);
   }, [isPaused]);
@@ -54,7 +42,6 @@ export function Pricing() {
     if (tab === activeTab) return;
     setDirection(tab === "carte" ? "right" : "left");
     setActiveTab(tab);
-    setProgress(0);
   };
 
 
@@ -206,33 +193,23 @@ export function Pricing() {
             className="inline-flex flex-col items-center"
           >
             {/* Conteneur sélecteur avec capsule glissante physique */}
-            <div className="relative inline-flex items-center p-1.5 rounded-full bg-slate-100/90 border border-lum-border/80 shadow-inner w-[340px] sm:w-[480px] max-w-full select-none">
+            <div className="relative inline-flex items-center p-1.5 rounded-2xl bg-slate-100/90 border border-lum-border/80 shadow-inner w-[340px] sm:w-[480px] max-w-full select-none">
               {/* Capsule noire qui glisse physiquement d'un bouton à l'autre */}
               <div
-                className="absolute top-1.5 bottom-1.5 left-1.5 w-[calc(50%-6px)] rounded-full bg-lum-midnight shadow-card transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                className="absolute top-1.5 bottom-1.5 left-1.5 w-[calc(50%-6px)] rounded-xl bg-lum-midnight shadow-card transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
                 style={{
                   transform:
                     activeTab === "packs"
                       ? "translateX(0%)"
                       : "translateX(100%)",
                 }}
-              >
-                {/* Jauge lumineuse animée intégrée à la capsule active */}
-                <div className="absolute bottom-1 left-4 right-4 h-0.5 bg-white/20 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full rounded-full transition-all duration-75 ${
-                      activeTab === "packs" ? "bg-emerald-400" : "bg-lum-electric"
-                    }`}
-                    style={{ width: `${progress}%` }}
-                  />
-                </div>
-              </div>
+              />
 
               {/* Bouton Onglet Packs */}
               <button
                 type="button"
                 onClick={() => handleTabChange("packs")}
-                className={`relative z-10 w-1/2 flex items-center justify-center gap-1.5 sm:gap-2 py-3 rounded-full text-xs sm:text-sm font-bold transition-colors duration-300 ${
+                className={`relative z-10 w-1/2 flex items-center justify-center gap-1.5 sm:gap-2 py-3 rounded-xl text-xs sm:text-sm font-bold transition-colors duration-300 ${
                   activeTab === "packs"
                     ? "text-white"
                     : "text-lum-slate hover:text-lum-midnight"
@@ -245,7 +222,7 @@ export function Pricing() {
                 />
                 <span>Packs Clés en Main</span>
                 <span
-                  className={`hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold transition-colors duration-300 ${
+                  className={`hidden sm:inline-block px-2 py-0.5 rounded-md text-[10px] font-semibold transition-colors duration-300 ${
                     activeTab === "packs"
                       ? "bg-emerald-500/20 text-emerald-300"
                       : "bg-emerald-100 text-emerald-800"
@@ -259,7 +236,7 @@ export function Pricing() {
               <button
                 type="button"
                 onClick={() => handleTabChange("carte")}
-                className={`relative z-10 w-1/2 flex items-center justify-center gap-1.5 sm:gap-2 py-3 rounded-full text-xs sm:text-sm font-bold transition-colors duration-300 ${
+                className={`relative z-10 w-1/2 flex items-center justify-center gap-1.5 sm:gap-2 py-3 rounded-xl text-xs sm:text-sm font-bold transition-colors duration-300 ${
                   activeTab === "carte"
                     ? "text-white"
                     : "text-lum-slate hover:text-lum-midnight"
@@ -272,7 +249,7 @@ export function Pricing() {
                 />
                 <span>Services à la Carte</span>
                 <span
-                  className={`hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold transition-colors duration-300 ${
+                  className={`hidden sm:inline-block px-2 py-0.5 rounded-md text-[10px] font-semibold transition-colors duration-300 ${
                     activeTab === "carte"
                       ? "bg-blue-500/20 text-blue-300"
                       : "bg-blue-100 text-blue-800"
@@ -281,29 +258,6 @@ export function Pricing() {
                   Unitaire
                 </span>
               </button>
-            </div>
-
-            {/* Indicateur d'état du swipe automatique */}
-            <div className="mt-2.5 flex items-center gap-2 text-[11px] font-semibold text-lum-muted">
-              {isPaused ? (
-                <button
-                  type="button"
-                  onClick={() => setIsPaused(false)}
-                  className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200/60 hover:bg-amber-100 transition-colors"
-                >
-                  <Pause className="w-3 h-3 text-amber-600" />
-                  <span>En pause pour lecture • Cliquez pour relancer</span>
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setIsPaused(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-lum-surface text-lum-slate border border-lum-border hover:bg-slate-100 transition-colors"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                  <span>Swipe automatique continu (4s) • Pause au survol</span>
-                </button>
-              )}
             </div>
           </div>
         </div>
@@ -378,16 +332,16 @@ export function Pricing() {
 
                         {/* Bloc Prix avec double affichage FCFA / EUR */}
                         <div className="py-4 border-y border-lum-border/40 mb-6">
-                          <div className="flex items-baseline gap-2">
+                          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                             <span
-                              className={`font-syne font-extrabold text-3xl sm:text-4xl tracking-tight ${
+                              className={`font-sans font-bold text-2xl sm:text-3xl tracking-tight ${
                                 pack.popular ? "text-white" : "text-lum-midnight"
                               }`}
                             >
                               {pricing.xof}
                             </span>
                             <span
-                              className={`text-sm font-semibold ${
+                              className={`text-xs sm:text-sm font-semibold whitespace-nowrap shrink-0 ${
                                 pack.popular ? "text-white/60" : "text-lum-muted"
                               }`}
                             >
@@ -395,7 +349,7 @@ export function Pricing() {
                             </span>
                           </div>
                           <span
-                            className={`text-[11px] mt-1 block ${
+                            className={`text-[11px] mt-1.5 block ${
                               pack.popular ? "text-white/60" : "text-lum-muted"
                             }`}
                           >
@@ -434,13 +388,13 @@ export function Pricing() {
                         href={getWhatsAppUrl(pack.whatsappMessage)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`w-full inline-flex items-center justify-center gap-2.5 py-4 px-6 rounded-full font-bold text-sm transition-all duration-200 active:scale-95 shadow-sm ${
+                        className={`w-full inline-flex items-center justify-center gap-2.5 py-4 px-6 rounded-xl font-bold text-sm transition-all duration-200 active:scale-95 shadow-sm ${
                           pack.popular
                             ? "bg-lum-electric hover:bg-lum-electric-hover text-white shadow-card"
                             : "bg-lum-midnight hover:bg-lum-navy text-white"
                         }`}
                       >
-                        <MessageCircle className="w-4 h-4 text-emerald-300" />
+                        <WhatsAppIcon className="w-4 h-4 text-emerald-400" />
                         <span>Commander ce pack sur WhatsApp</span>
                         <ArrowRight className="w-4 h-4" />
                       </a>
@@ -480,11 +434,11 @@ export function Pricing() {
                         </p>
 
                         {/* Prix */}
-                        <div className="flex items-baseline gap-2 pb-4 mb-4 border-b border-lum-border/60">
-                          <span className="font-syne font-extrabold text-2xl sm:text-3xl text-lum-midnight">
+                        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 pb-4 mb-4 border-b border-lum-border/60">
+                          <span className="font-sans font-bold text-xl sm:text-2xl text-lum-midnight">
                             {pricing.xof}
                           </span>
-                          <span className="text-xs font-semibold text-lum-muted">
+                          <span className="text-xs font-semibold text-lum-muted whitespace-nowrap shrink-0">
                             ({pricing.eur})
                           </span>
                         </div>
@@ -504,9 +458,9 @@ export function Pricing() {
                         href={getWhatsAppUrl(item.whatsappMessage)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-full bg-lum-surface hover:bg-lum-midnight text-lum-midnight hover:text-white border border-lum-border hover:border-lum-midnight text-xs sm:text-sm font-semibold transition-all duration-200 active:scale-95 shadow-subtle group"
+                        className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-xl bg-lum-surface hover:bg-lum-midnight text-lum-midnight hover:text-white border border-lum-border hover:border-lum-midnight text-xs sm:text-sm font-semibold transition-all duration-200 active:scale-95 shadow-subtle group"
                       >
-                        <MessageCircle className="w-4 h-4 text-emerald-600 group-hover:text-emerald-400" />
+                        <WhatsAppIcon className="w-4 h-4 text-emerald-600 group-hover:text-emerald-400" />
                         <span>Commander ce service</span>
                         <ArrowRight className="w-4 h-4 text-lum-muted group-hover:text-white group-hover:translate-x-1 transition-all" />
                       </a>

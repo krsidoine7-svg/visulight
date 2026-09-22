@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { siteConfig, getWhatsAppUrl } from "@/config/site";
+import { siteConfig, getWhatsAppUrl, sanitizeInput } from "@/config/site";
 import {
   MessageCircle,
   ArrowRight,
@@ -49,16 +49,16 @@ export function OrderConfigurator() {
   ];
 
   const generateMessage = () => {
-    const clientName = name.trim() || "Un porteur de projet";
-    const clientLocation = location.trim() || "Abidjan";
-    const clientDetails = details.trim() || "À préciser de vive voix";
+    const cleanName = sanitizeInput(name, 80) || "Un porteur de projet";
+    const cleanLocation = sanitizeInput(location, 80) || "Abidjan";
+    const cleanDetails = sanitizeInput(details, 500) || "À préciser de vive voix";
 
     return `🚀 *NOUVELLE DEMANDE DE PROJET - LIGHT STUDIO*
-👤 *Client :* ${clientName} (${clientLocation})
+👤 *Client :* ${cleanName} (${cleanLocation})
 🎯 *Prestation :* ${service}
 💰 *Budget envisagé :* ${budget}
 ⏱️ *Délai souhaité :* ${timeline}
-📝 *Précisions :* ${clientDetails}
+📝 *Précisions :* ${cleanDetails}
 
 Bonjour Light Studio ! Pouvons-nous échanger sur les disponibilités et la faisabilité de ce projet ?`;
   };
@@ -67,7 +67,14 @@ Bonjour Light Studio ! Pouvons-nous échanger sur les disponibilités et la fais
     e.preventDefault();
     const formattedMsg = generateMessage();
     const url = getWhatsAppUrl(formattedMsg);
-    window.open(url, "_blank", "noopener,noreferrer");
+    // Redirection sécurisée avec rel="noopener noreferrer"
+    const safeLink = document.createElement("a");
+    safeLink.href = url;
+    safeLink.target = "_blank";
+    safeLink.rel = "noopener noreferrer";
+    document.body.appendChild(safeLink);
+    safeLink.click();
+    document.body.removeChild(safeLink);
   };
 
   return (
@@ -175,6 +182,7 @@ Bonjour Light Studio ! Pouvons-nous échanger sur les disponibilités et la fais
                     <input
                       type="text"
                       required
+                      maxLength={80}
                       placeholder="Ex: David Kouassi / Société Palm"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -191,6 +199,7 @@ Bonjour Light Studio ! Pouvons-nous échanger sur les disponibilités et la fais
                     <Building className="w-4 h-4 text-lum-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
+                      maxLength={80}
                       placeholder="Ex: Cocody Angré, Marcory, Plateau..."
                       value={location}
                       onChange={(e) => setLocation(e.target.value)}
@@ -206,6 +215,7 @@ Bonjour Light Studio ! Pouvons-nous échanger sur les disponibilités et la fais
                 </label>
                 <textarea
                   rows={3}
+                  maxLength={500}
                   placeholder="Ex: Nous lançons notre nouvelle gamme le mois prochain et avons besoin d'un spot vidéo percutant pour les réseaux sociaux."
                   value={details}
                   onChange={(e) => setDetails(e.target.value)}

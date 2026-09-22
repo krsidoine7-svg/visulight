@@ -104,6 +104,12 @@ Objectif : Montrer une agence vivante et animer la communauté.
 * **21/09/2026 :** Intégration du module **M03-B (Processus de Création Scroll-Driven)** inspiré de la maquette de référence : 4 étiquettes suspendues avec œillets métalliques, angles d'inclinaison organiques (-3.5° à +4°), arrière-plan en grille millimétrée, et ligne pointillée courbe en S animée en temps réel au défilement.
 * **21/09/2026 :** Amélioration du sélecteur de tarifs (Module M05) avec **Swipe Automatique Continu (4s)** : capsule noire physique qui glisse de gauche à droite avec translation CSS fluide (`transform: translateX()`), jauge fine de progression intégrée, glissement latéral fluide des cartes avec fondu doux, et pause automatique au survol pour garantir le confort de lecture.
 * **21/09/2026 :** Ajout du **Composant Scroll Reveal global** (`components/scroll-reveal.tsx`) : animation d'apparition fluide au défilement sur toutes les sections, accélération GPU (`will-change`), 4 variantes (haut, gauche, droite, zoom), déclenchement anticipé (`rootMargin -40px`), respect de l'accessibilité (`prefers-reduced-motion`).
+* **22/09/2026 :** **Sécurisation Globale du Site (OWASP Top 10 & mandatory-secure-web-skills) :**
+  - Élimination de la vulnérabilité dépendance PostCSS (GHSA-qx2v-qp2m-jg93) via `overrides: postcss ^8.5.28` (0 vulnérabilité `npm audit`).
+  - Configuration d'en-têtes HTTP défensifs dans `next.config.ts` (CSP stricte, HSTS 2 ans, anti-clickjacking `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, suppression de `X-Powered-By`).
+  - Assainissement strict (`sanitizeInput`), limitation de longueur (`maxLength`) sur le configurateur de devis (`components/order-configurator.tsx`), et assainissement du numéro WhatsApp (`config/site.ts`).
+  - Création du composant d'erreur global Next.js (`app/error.tsx`) prévenant toute fuite de données techniques ou de traces d'exécution.
+
 
 ---
 

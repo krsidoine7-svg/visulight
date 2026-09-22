@@ -62,13 +62,26 @@ export const siteConfig: SiteConfig = {
 };
 
 /**
- * Générateur de lien direct WhatsApp avec message pré-formaté
+ * Fonction d'assainissement et de limitation de taille des chaînes utilisateurs
+ */
+export function sanitizeInput(input: string, maxLength = 200): string {
+  if (!input) return "";
+  return input
+    .replace(/[\u0000-\u0008\u000B-\u001F\u007F-\u009F]/g, "")
+    .trim()
+    .slice(0, maxLength);
+}
+
+/**
+ * Générateur sécurisé de lien direct WhatsApp avec numéro assaini et message encodé
  */
 export function getWhatsAppUrl(customMessage?: string): string {
   const defaultMsg =
     "Bonjour Light Studio ! J'ai découvert votre site web et je souhaite échanger au sujet d'un projet créatif.";
-  const msg = encodeURIComponent(customMessage || defaultMsg);
-  return `https://wa.me/${siteConfig.contact.whatsappNumber}?text=${msg}`;
+  const cleanNumber = siteConfig.contact.whatsappNumber.replace(/\D/g, "");
+  const rawMsg = customMessage ? sanitizeInput(customMessage, 2000) : defaultMsg;
+  const msg = encodeURIComponent(rawMsg);
+  return `https://wa.me/${cleanNumber}?text=${msg}`;
 }
 
 /**

@@ -1,7 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import { siteConfig, getWhatsAppUrl } from "@/config/site";
 import {
-  MessageCircle,
   Mail,
   MapPin,
   Clock,
@@ -9,10 +9,9 @@ import {
   Youtube,
   Linkedin,
   ArrowUp,
-  Sparkles,
-  ShieldCheck,
   CheckCircle,
 } from "lucide-react";
+import { WhatsAppIcon, TikTokIcon } from "@/components/icons";
 
 export function Footer() {
   return (
@@ -22,14 +21,16 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* Colonne 1 : Identité & Réseaux */}
           <div className="sm:col-span-2 lg:col-span-4 space-y-5 min-w-0">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-white text-lum-midnight flex items-center justify-center font-syne font-extrabold text-lg shadow-sm shrink-0">
-                LS
-              </div>
-              <span className="font-syne font-extrabold text-xl sm:text-2xl tracking-tight text-white whitespace-nowrap">
-                LIGHT<span className="text-lum-electric">.</span>STUDIO
-              </span>
-            </div>
+            <Link href="/" className="inline-block">
+              <Image
+                src="/images/logo-light.png"
+                alt="Light Studio Logo"
+                width={180}
+                height={50}
+                className="h-10 w-auto object-contain brightness-0 invert"
+                priority
+              />
+            </Link>
 
             <p className="font-inter text-xs sm:text-sm text-slate-300 leading-relaxed max-w-sm">
               Studio créatif 360° basé à Abidjan. Nous combinons direction artistique de prestige, captation cinéma et solutions web modernes pour convertir votre audience en clients fidèles.
@@ -56,7 +57,7 @@ export function Footer() {
                   className="w-9 h-9 rounded-xl bg-white/10 hover:bg-white hover:text-lum-midnight text-white flex items-center justify-center transition-all font-bold text-xs"
                   aria-label="TikTok Light Studio"
                 >
-                  TT
+                  <TikTokIcon className="w-4 h-4" />
                 </a>
                 <a
                   href={siteConfig.social.youtube}
@@ -154,7 +155,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white text-white hover:text-lum-midnight text-xs font-semibold transition-all border border-white/10"
               >
-                <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
+                <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-400" />
                 <span>{siteConfig.contact.phoneDisplay}</span>
               </a>
             </div>
@@ -167,12 +168,9 @@ export function Footer() {
             </span>
 
             {/* Statut de disponibilité en direct */}
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+            <div className="p-4 rounded-lg border border-white/10">
               <div className="flex items-center gap-2 mb-2">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
-                </span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
                 <span className="text-xs font-bold text-emerald-400">
                   Planning Ouvert
                 </span>
@@ -209,7 +207,21 @@ export function Footer() {
             <span>Studio de Création & Vidéo Cinématique à Abidjan</span>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-wrap justify-center sm:justify-end">
+            <Link
+              href="/mentions-legales"
+              className="text-slate-400 hover:text-white transition-colors text-[11px]"
+            >
+              Mentions légales
+            </Link>
+            <span className="text-slate-600">·</span>
+            <Link
+              href="/confidentialite"
+              className="text-slate-400 hover:text-white transition-colors text-[11px]"
+            >
+              Confidentialité
+            </Link>
+            <span className="text-slate-600">·</span>
             <a
               href="#top"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/15 text-slate-300 hover:text-white transition-all text-[11px]"

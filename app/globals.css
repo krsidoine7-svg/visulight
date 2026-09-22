@@ -11,24 +11,45 @@
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
-  }
-
-  body {
-    background-color: #FFFFFF;
-    color: #334155;
-    font-family: var(--font-inter);
     overflow-x: hidden;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-syne);
-    color: #0A1128;
-    letter-spacing: -0.02em;
+  body {
+    background-color: #FAFAF9;
+    color: #1A1A1A;
+    font-family: var(--font-inter);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Titres : Syne conservé pour la signature créative */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-syne);
+    color: #0A0A0A;
+    letter-spacing: -0.025em;
+  }
+
+  /* Texte courant : Inter uniquement */
+  p, span, a, li, label, input, textarea, button {
+    font-family: var(--font-inter);
+  }
+
+  /* Sélection */
   ::selection {
     background-color: #2563EB;
     color: #FFFFFF;
+  }
+
+  /* Conteneurs : jamais d'overflow horizontal */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  img, video, svg {
+    max-width: 100%;
+    height: auto;
   }
 }
 
@@ -55,5 +76,14 @@
   .animate-slide-in-left {
     animation: slideInLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-}
 
+  /* ─── Utilitaires anti-overflow ─── */
+  .no-overflow {
+    overflow: hidden;
+  }
+
+  .clip-content {
+    overflow: hidden;
+    width: 100%;
+  }
+}

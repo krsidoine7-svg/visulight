@@ -11,118 +11,89 @@ import {
   RefreshCcw,
   Zap,
   MessageCircle,
-  ChevronLeft,
-  ChevronRight,
-  Quote,
+  ArrowRight,
 } from "lucide-react";
+import { WhatsAppIcon } from "@/components/icons";
 
-// ─── Chiffres clés animés ───
+// ─── Données ───
 const stats = [
-  { value: 150, suffix: "+", label: "Projets livrés", sub: "depuis 2021" },
+  { value: 150, suffix: "+", label: "Projets livrés", sub: "depuis 2025" },
   { value: 98, suffix: "%", label: "Clients satisfaits", sub: "sur 5 étoiles" },
   { value: 48, suffix: "h", label: "Délai moyen", sub: "sur affiche & visuel" },
   { value: 4, suffix: " pays", label: "Rayonnement", sub: "Afrique de l'Ouest" },
 ];
 
-// ─── Garanties ───
 const guarantees = [
   {
     icon: Clock,
-    title: "Délais Garantis",
+    title: "Délais garantis",
     description:
-      "Chaque devis inclut une date de livraison contractuelle. Nous la respectons, ou nous vous offrons une révision supplémentaire gratuite.",
-    color: "text-amber-400",
-    glow: "shadow-amber-500/20",
-    border: "border-amber-500/30",
+      "Chaque devis inclut une date de livraison contractuelle. Nous la respectons, ou vous obtenez une révision gratuite.",
   },
   {
     icon: ShieldCheck,
-    title: "Qualité Studio Certifiée",
+    title: "Qualité studio certifiée",
     description:
-      "Nos fichiers sont livrés en résolution maximale, prêts pour l'impression grand format, la diffusion web et les écrans 4K.",
-    color: "text-emerald-400",
-    glow: "shadow-emerald-500/20",
-    border: "border-emerald-500/30",
+      "Fichiers livrés en résolution maximale, prêts pour l'impression grand format, la diffusion web et les écrans 4K.",
   },
   {
     icon: RefreshCcw,
-    title: "Révisions Incluses",
+    title: "Révisions incluses",
     description:
       "Pas de surfacturation surprise. Chaque projet inclut des rounds de retouches jusqu'à votre validation complète.",
-    color: "text-blue-400",
-    glow: "shadow-blue-500/20",
-    border: "border-blue-500/30",
   },
   {
     icon: Headphones,
-    title: "Suivi WhatsApp Direct",
+    title: "Suivi WhatsApp direct",
     description:
-      "Un interlocuteur dédié, joignable sur WhatsApp, répond à chaque étape. Pas de boîte mail, pas de ticket — une vraie relation.",
-    color: "text-purple-400",
-    glow: "shadow-purple-500/20",
-    border: "border-purple-500/30",
+      "Un interlocuteur dédié, joignable sur WhatsApp, répond à chaque étape — pas de ticket, une vraie relation.",
   },
   {
     icon: Zap,
-    title: "Réactivité Maximale",
+    title: "Réactivité maximale",
     description:
-      "Besoin d'un visuel pour demain ? Notre équipe gère les urgences créatives avec la même exigence qu'un projet planifié.",
-    color: "text-rose-400",
-    glow: "shadow-rose-500/20",
-    border: "border-rose-500/30",
+      "Besoin d'un visuel pour demain ? Notre équipe gère les urgences créatives avec la même exigence.",
   },
   {
     icon: Star,
-    title: "Satisfaction ou Reprise",
+    title: "Satisfaction ou reprise",
     description:
-      "Si le résultat ne vous convient pas totalement à la livraison, nous reprenons la production sans frais supplémentaires.",
-    color: "text-cyan-400",
-    glow: "shadow-cyan-500/20",
-    border: "border-cyan-500/30",
+      "Si le résultat ne vous convient pas à la livraison, nous reprenons la production sans frais supplémentaires.",
   },
 ];
 
-// ─── Témoignages ───
 const testimonials = [
   {
     name: "Koffi Assouman",
     role: "Directeur, Restaurant Le Palmier",
     city: "Abidjan, Plateau",
     text: "Light Studio a transformé l'image de notre restaurant. Les visuels pour nos réseaux sociaux ont multiplié nos réservations par trois en deux mois. Un travail d'une qualité exceptionnelle.",
-    rating: 5,
     initials: "KA",
-    color: "bg-amber-500",
   },
   {
     name: "Mariame Coulibaly",
     role: "Fondatrice, Beauté Naturelle CI",
     city: "Abidjan, Cocody",
-    text: "J'avais besoin d'un site web et d'une identité visuelle complète pour ma marque de cosmétiques. Light Studio a tout compris dès la première réunion. Le résultat est magnifique et très professionnel.",
-    rating: 5,
+    text: "J'avais besoin d'un site web et d'une identité visuelle complète. Light Studio a tout compris dès la première réunion. Le résultat est magnifique et très professionnel.",
     initials: "MC",
-    color: "bg-rose-500",
   },
   {
     name: "Ibrahim Sanogo",
     role: "Organisateur d'Événements",
     city: "Bouaké / Abidjan",
-    text: "Le film de 3 minutes qu'ils ont réalisé pour notre festival a été partagé plus de 50 000 fois sur les réseaux. C'est du cinéma, pas juste une vidéo. Je les recommande les yeux fermés.",
-    rating: 5,
+    text: "Le film de 3 minutes qu'ils ont réalisé pour notre festival a été partagé plus de 50 000 fois sur les réseaux. C'est du cinéma, pas juste une vidéo.",
     initials: "IS",
-    color: "bg-blue-500",
   },
   {
     name: "Adjoua Traoré",
     role: "CEO, Traoré Immobilier",
     city: "Abidjan, Marcory",
-    text: "Les affiches de nos programmes immobiliers ont une classe internationale. Nos clients les remarquent à chaque fois. Light Studio est notre partenaire créatif depuis maintenant 2 ans.",
-    rating: 5,
+    text: "Les affiches de nos programmes immobiliers ont une classe internationale. Nos clients les remarquent à chaque fois. Light Studio est notre partenaire créatif depuis 2 ans.",
     initials: "AT",
-    color: "bg-emerald-500",
   },
 ];
 
-// ─── Composant compteur animé ───
+// ─── Compteur animé ───
 function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
@@ -135,8 +106,8 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
-          const duration = 1800;
-          const steps = 60;
+          const duration = 1600;
+          const steps = 50;
           const increment = value / steps;
           let current = 0;
           const timer = setInterval(() => {
@@ -157,7 +128,7 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   }, [value]);
 
   return (
-    <div ref={ref} className="font-syne font-extrabold text-5xl sm:text-6xl text-white">
+    <div ref={ref} className="font-syne font-bold text-4xl sm:text-5xl text-lum-midnight">
       {count}
       <span className="text-lum-electric">{suffix}</span>
     </div>
@@ -165,187 +136,167 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 }
 
 export function Reassurance() {
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-
-  const prev = () =>
-    setActiveTestimonial((i) => (i === 0 ? testimonials.length - 1 : i - 1));
-  const next = () =>
-    setActiveTestimonial((i) => (i === testimonials.length - 1 ? 0 : i + 1));
-
-  const t = testimonials[activeTestimonial];
-
   return (
     <section
       id="confiance"
-      className="py-20 lg:py-28 bg-white scroll-mt-24 overflow-hidden"
+      className="py-20 lg:py-28 bg-lum-surface scroll-mt-20"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* ─── En-tête ─── */}
+        {/* ── En-tête ── */}
         <ScrollReveal variant="up">
-          <div className="max-w-3xl mx-auto text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-lum-electric/10 text-lum-electric text-xs font-semibold uppercase tracking-wider mb-5">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Pourquoi Light Studio ?</span>
-            </div>
-            <h2 className="font-syne font-extrabold text-4xl sm:text-5xl text-lum-midnight tracking-tight leading-tight mb-5">
+          <div className="mb-14">
+            <p className="text-xs font-semibold uppercase tracking-widest text-lum-electric mb-4">
+              Pourquoi Light Studio ?
+            </p>
+            <h2 className="font-syne font-bold text-3xl sm:text-4xl lg:text-5xl text-lum-midnight tracking-tight leading-tight max-w-2xl">
               La confiance se construit par les actes, pas les promesses.
             </h2>
-            <p className="font-inter text-lg text-lum-slate max-w-2xl mx-auto">
-              Voici ce que nous garantissons concrètement à chaque client — et les
-              résultats que ça produit.
+            <p className="mt-4 text-base text-lum-slate max-w-xl leading-relaxed">
+              Voici ce que nous garantissons concrètement à chaque client — et les résultats que ça produit.
             </p>
           </div>
         </ScrollReveal>
 
-        {/* ─── Chiffres clés animés ─── */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+        {/* ── Chiffres clés — typographiques, sans cartes ── */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 mb-16 border-t border-lum-border border-b">
           {stats.map((s, i) => (
-            <ScrollReveal key={s.label} variant="scale" delay={(i * 100) as 0 | 100 | 200 | 300 | 400 | 500}>
-              <div className="rounded-3xl bg-lum-surface border border-lum-border p-6 text-center flex flex-col items-center gap-2">
+            <ScrollReveal key={s.label} variant="up" delay={(i * 100) as 0 | 100 | 200 | 300 | 400 | 500}>
+              <div className="py-8 px-4 text-center border-r border-lum-border last:border-r-0">
                 <AnimatedCounter value={s.value} suffix={s.suffix} />
-                <p className="font-syne font-bold text-lum-midnight text-sm mt-1">
+                <p className="font-semibold text-lum-midnight text-sm mt-2">
                   {s.label}
                 </p>
-                <p className="text-lum-muted text-xs">{s.sub}</p>
+                <p className="text-lum-muted text-xs mt-0.5">{s.sub}</p>
               </div>
             </ScrollReveal>
           ))}
         </div>
 
-        {/* ─── Grille des 6 Garanties ─── */}
+        {/* ── Garanties — liste, sans cartes multiples ── */}
         <ScrollReveal variant="up">
-          <h3 className="font-syne font-bold text-2xl text-lum-midnight text-center mb-8">
-            Nos 6 Engagements Concrets
+          <h3 className="font-syne font-bold text-2xl text-lum-midnight mb-8">
+            Nos 6 engagements concrets
           </h3>
         </ScrollReveal>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-20">
-          {guarantees.map((g, i) => (
-            <ScrollReveal key={g.title} variant="up" delay={(i % 3 * 100) as 0 | 100 | 200 | 300 | 400 | 500}>
-              <div
-                className={`group rounded-2xl p-6 bg-white border ${g.border} hover:shadow-lg ${g.glow} transition-all duration-300`}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-lum-surface flex items-center justify-center shrink-0">
-                    <g.icon className={`w-5 h-5 ${g.color}`} />
+        <div className="divide-y divide-lum-border border-t border-lum-border mb-20">
+          {guarantees.map((g, i) => {
+            const Icon = g.icon;
+            return (
+              <ScrollReveal key={g.title} variant="up" delay={((i % 3) * 100) as 0 | 100 | 200 | 300 | 400 | 500}>
+                <div className="flex items-start gap-5 py-6 group">
+                  <div className="w-9 h-9 rounded-lg border border-lum-border flex items-center justify-center shrink-0 bg-white group-hover:border-lum-electric transition-colors duration-150">
+                    <Icon className="w-4 h-4 text-lum-electric" />
                   </div>
-                  <div>
-                    <h4 className="font-syne font-bold text-lum-midnight text-base mb-2">
-                      {g.title}
-                    </h4>
-                    <p className="text-lum-slate text-sm font-inter leading-relaxed">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                      <h4 className="font-syne font-bold text-lum-midnight text-base">
+                        {g.title}
+                      </h4>
+                      <span className="text-xs font-bold text-lum-electric uppercase tracking-wide hidden sm:block">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+                    <p className="text-lum-slate text-sm leading-relaxed mt-1">
                       {g.description}
                     </p>
                   </div>
                 </div>
-              </div>
-            </ScrollReveal>
-          ))}
+              </ScrollReveal>
+            );
+          })}
         </div>
 
-        {/* ─── Carrousel de témoignages ─── */}
+        {/* ── Témoignages — texte pur, fond sombre sobre ── */}
         <ScrollReveal variant="up">
-          <h3 className="font-syne font-bold text-2xl text-lum-midnight text-center mb-8">
-            Ce que disent nos clients
-          </h3>
-
-          <div className="max-w-3xl mx-auto">
-            {/* Card témoignage active */}
-            <div
-              key={activeTestimonial}
-              className="relative rounded-3xl bg-lum-midnight p-8 sm:p-10 mb-5"
-              style={{ animation: "fadeSlideIn 0.4s cubic-bezier(0.22,1,0.36,1)" }}
-            >
-              <Quote className="absolute top-6 right-6 w-8 h-8 text-lum-electric/30 fill-lum-electric/20" />
-
-              {/* Étoiles */}
-              <div className="flex gap-1 mb-5">
-                {Array.from({ length: t.rating }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
-                ))}
-              </div>
-
-              <p className="font-inter text-white/80 text-lg leading-relaxed mb-6 italic">
-                "{t.text}"
+          <div className="bg-lum-dark rounded-xl overflow-hidden">
+            <div className="px-6 sm:px-10 py-10 border-b border-white/10">
+              <p className="text-xs font-semibold uppercase tracking-widest text-lum-electric mb-3">
+                Ils nous font confiance
               </p>
-
-              <div className="flex items-center gap-4">
-                <div
-                  className={`w-11 h-11 rounded-full ${t.color} flex items-center justify-center font-syne font-bold text-white text-sm`}
-                >
-                  {t.initials}
-                </div>
-                <div>
-                  <p className="font-syne font-bold text-white text-sm">{t.name}</p>
-                  <p className="text-white/40 text-xs">{t.role} · {t.city}</p>
-                </div>
-              </div>
+              <h3 className="font-syne font-bold text-2xl sm:text-3xl text-white">
+                Ce que disent nos clients
+              </h3>
             </div>
 
-            {/* Contrôles */}
-            <div className="flex items-center justify-between">
-              <div className="flex gap-2">
-                {testimonials.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveTestimonial(i)}
-                    className={`rounded-full transition-all duration-300 ${
-                      i === activeTestimonial
-                        ? "w-6 h-2 bg-lum-electric"
-                        : "w-2 h-2 bg-lum-border hover:bg-lum-muted"
-                    }`}
-                  />
-                ))}
+            <div className="divide-y divide-white/8">
+              {testimonials.map((t) => (
+                <div key={t.name} className="px-6 sm:px-10 py-8 flex gap-5 sm:gap-8 items-start">
+                  {/* Avatar */}
+                  <div className="w-10 h-10 rounded-full bg-lum-electric flex items-center justify-center font-syne font-bold text-white text-sm shrink-0">
+                    {t.initials}
+                  </div>
+                  {/* Contenu */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-baseline gap-2 mb-2">
+                      <span className="font-syne font-bold text-white text-sm">{t.name}</span>
+                      <span className="text-white/30 text-xs">·</span>
+                      <span className="text-white/40 text-xs">{t.role}</span>
+                      <span className="text-white/20 text-xs">·</span>
+                      <span className="text-white/30 text-xs">{t.city}</span>
+                    </div>
+                    <p className="text-white/65 text-sm leading-relaxed">
+                      "{t.text}"
+                    </p>
+                    {/* Étoiles */}
+                    <div className="flex gap-0.5 mt-3">
+                      {[0, 1, 2, 3, 4].map((j) => (
+                        <Star key={j} className="w-3 h-3 text-amber-400 fill-amber-400" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Score global */}
+            <div className="px-6 sm:px-10 py-6 border-t border-white/10 flex flex-wrap items-center gap-6">
+              <div className="flex items-center gap-2">
+                <span className="font-syne font-bold text-2xl text-white">5.0</span>
+                <div className="flex gap-0.5">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <Star key={i} className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                  ))}
+                </div>
               </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={prev}
-                  className="w-9 h-9 rounded-full border border-lum-border flex items-center justify-center hover:bg-lum-midnight hover:text-white hover:border-lum-midnight transition-all duration-200"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={next}
-                  className="w-9 h-9 rounded-full border border-lum-border flex items-center justify-center hover:bg-lum-midnight hover:text-white hover:border-lum-midnight transition-all duration-200"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
+              <span className="text-white/30 text-xs">·</span>
+              <span className="text-white/50 text-sm">
+                <strong className="text-white">98%</strong> de clients satisfaits
+              </span>
+              <span className="text-white/30 text-xs">·</span>
+              <span className="text-white/50 text-sm">
+                <strong className="text-white">150+</strong> projets livrés depuis 2025
+              </span>
             </div>
           </div>
         </ScrollReveal>
 
-        {/* ─── CTA final ─── */}
-        <ScrollReveal variant="scale">
-          <div className="mt-16 rounded-3xl bg-gradient-to-br from-lum-electric to-blue-700 p-8 sm:p-12 text-center">
-            <h3 className="font-syne font-extrabold text-3xl sm:text-4xl text-white mb-4">
-              Prêt à passer à l'action ?
-            </h3>
-            <p className="text-white/70 font-inter text-lg mb-8 max-w-xl mx-auto">
-              Décrivez votre projet en quelques lignes sur WhatsApp. Notre équipe
-              vous répond avec un devis clair en moins de 24h.
-            </p>
+        {/* ── CTA final — sobre ── */}
+        <ScrollReveal variant="up">
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 pt-10 border-t border-lum-border">
+            <div>
+              <h3 className="font-syne font-bold text-2xl text-lum-midnight">
+                Prêt à passer à l'action ?
+              </h3>
+              <p className="text-lum-slate text-base mt-2 max-w-md">
+                Décrivez votre projet sur WhatsApp. Notre équipe vous répond avec un devis clair en moins de 24h.
+              </p>
+            </div>
             <a
               href={getWhatsAppUrl(
                 "Bonjour Light Studio ! J'ai vu votre site et je souhaite discuter d'un projet créatif."
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-lum-electric font-bold text-sm sm:text-base hover:scale-105 hover:shadow-2xl transition-all duration-300"
+              className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-lum-midnight text-white font-semibold text-sm rounded-md hover:bg-lum-navy transition-colors duration-150 shrink-0 group"
             >
-              <MessageCircle className="w-5 h-5" />
-              Démarrer mon projet sur WhatsApp
+              <WhatsAppIcon className="w-4 h-4 text-emerald-400" />
+              Démarrer mon projet
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-150" />
             </a>
           </div>
         </ScrollReveal>
       </div>
-
-      <style jsx>{`
-        @keyframes fadeSlideIn {
-          from { opacity: 0; transform: translateY(12px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </section>
   );
 }

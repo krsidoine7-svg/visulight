@@ -174,7 +174,6 @@ export function ProcessFlow() {
         {/* En-tête de section */}
         <div className="max-w-2xl mx-auto text-center mb-24 lg:mb-32">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-lum-border text-xs font-semibold text-lum-midnight shadow-subtle mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-lum-electric" />
             <span>Notre Méthode de Création 360°</span>
           </div>
 
@@ -316,11 +315,6 @@ export function ProcessFlow() {
                             {step.deliverable}
                           </span>
                         </div>
-
-                        {/* Indication visuelle discrète au survol */}
-                        <div className="mt-4 pt-3 border-t border-slate-100 text-[10px] text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity text-center font-medium">
-                          ✨ Cadre stabilisé pour lecture confortable
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -333,7 +327,7 @@ export function ProcessFlow() {
           <div className="mt-20 lg:mt-28 text-center lg:text-right max-w-md ml-auto mr-4 lg:mr-12">
             <div className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-lum-midnight text-white text-xs sm:text-sm font-extrabold shadow-card border-2 border-emerald-400 hover:scale-105 transition-transform duration-200">
               <Sparkles className="w-4 h-4 text-emerald-400" />
-              <span>Ready to be delivered • Prêt à convertir !</span>
+              <span>Prêt à être livré • Prêt à convertir !</span>
             </div>
             <p className="text-[11px] text-lum-muted mt-2 font-medium">
               Fichiers sources cédés • Formats 4K & réseaux sociaux inclus

@@ -6,6 +6,7 @@ import { ProcessFlow } from "@/components/process-flow";
 import { Portfolio } from "@/components/portfolio";
 import { Pricing } from "@/components/pricing";
 import { OrderConfigurator } from "@/components/order-configurator";
+import { Events } from "@/components/events";
 import { ScrollReveal } from "@/components/scroll-reveal";
 
 export default function HomePage() {
@@ -47,6 +48,11 @@ export default function HomePage() {
       {/* Module M06 : Formulaire de Commande Express & Liaison WhatsApp */}
       <ScrollReveal variant="up" delay={100}>
         <OrderConfigurator />
+      </ScrollReveal>
+
+      {/* Module M09 : Agenda & Événements du Studio (MVP3) */}
+      <ScrollReveal variant="up">
+        <Events />
       </ScrollReveal>
     </main>
   );
